@@ -50,7 +50,7 @@ if mode == "🔍 Browse Listings":
     with col2:
         prop_type = st.selectbox("Select Property Type", sorted(df['property_type_en'].dropna().unique()))
     with col3:
-        developer = "All"  # Developer filter skipped (column not present)
+    developer = "All"  # Developer filter skipped (column not present)
 
     df_filtered = df[
         (df['area_name_en'] == area) &
@@ -73,6 +73,10 @@ if mode == "🔍 Browse Listings":
         df_model = pd.get_dummies(df_model, columns=[
             'area_name_en', 'property_type_en', 'property_sub_type_en', 'property_usage_en'
         ], drop_first=True)
+
+        if df_model.empty:
+            st.warning("No valid data to predict after filtering. Try different filters.")
+            st.stop()
 
         for col in model.feature_names_in_:
             if col not in df_model.columns:
@@ -126,6 +130,10 @@ elif mode == "✍️ Predict a Property":
             row_encoded = pd.get_dummies(row, columns=[
                 'area_name_en', 'property_type_en', 'property_sub_type_en', 'property_usage_en'
             ], drop_first=True)
+
+            if row_encoded.empty:
+                st.warning("Input could not be processed. Please revise your selections.")
+                st.stop()
 
             for col in model.feature_names_in_:
                 if col not in row_encoded.columns:
