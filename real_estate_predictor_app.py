@@ -51,7 +51,7 @@ if mode == "🔍 Browse Listings":
     with col2:
         prop_type = st.selectbox("Select Property Type", sorted(df['property_type_en'].dropna().unique()))
     with col3:
-        developer = "All"  # Developer filter skipped (column not present)
+    developer = "All"  # Developer filter skipped (column not present)
 
     df_filtered = df[
         (df['area_name_en'] == area) &
@@ -109,6 +109,25 @@ elif mode == "✍️ Predict a Property":
             property_usage = st.selectbox("Property Usage", sorted(df['property_usage_en'].dropna().unique()))
 
         avg_price_q = df[
+            (df['area_name_en'] == area_name) &
+            (df['property_type_en'] == property_type) &
+            (df['year'] == year)
+        ]
+
+        if not avg_price_q.empty:
+            avg_price_q = avg_price_q.dropna(subset=['meter_sale_price'])
+            suggested_price = avg_price_q['meter_sale_price'].mean()
+        else:
+            suggested_price = 12000.0  # fallback
+
+        meter_sale_price = st.number_input(
+            "Meter Sale Price (AED/sqm)",
+            min_value=1000.0,
+            value=round(suggested_price, 0),
+            help="If unsure, we've pre-filled the average value based on your selections."
+        ).unique()))
+
+        avg_price_q = df[
     (df['area_name_en'] == area_name) &
     (df['property_type_en'] == property_type) &
     (df['year'] == year)
@@ -126,9 +145,9 @@ meter_sale_price = st.number_input(
     value=round(suggested_price, 0),
     help="If unsure, we've pre-filled the average value based on your selections."
 )
-wait_years = st.slider("Years to wait (for projected appreciation)", 1, 20, 5)
+        wait_years = st.slider("Years to wait (for projected appreciation)", 1, 20, 5)
 
-submitted = st.form_submit_button("Predict Price")
+        submitted = st.form_submit_button("Predict Price")
 
         if submitted:
             years_since_handover = 2023 - year
