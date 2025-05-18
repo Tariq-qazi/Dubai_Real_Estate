@@ -7,6 +7,7 @@ import os
 import matplotlib.pyplot as plt
 import gdown
 
+
 # === CONFIG ===
 PARQUET_DRIVE_ID = "17tWMJLlBIpxirNTi2JntwJZ0Pt7lMgC9"
 PKL_DRIVE_ID = "1nEgmP6L8OgHN1Zhx5rdXEPFyIpgsllvX"
@@ -49,7 +50,7 @@ if mode == "🔍 Browse Listings":
     with col2:
         prop_type = st.selectbox("Select Property Type", sorted(df['property_type_en'].dropna().unique()))
     with col3:
-        developer = "All"  # Developer filter skipped (column not present)
+    developer = "All"  # Developer filter skipped (column not present)
 
     df_filtered = df[
         (df['area_name_en'] == area) &
