@@ -126,9 +126,9 @@ meter_sale_price = st.number_input(
     value=round(suggested_price, 0),
     help="If unsure, we've pre-filled the average value based on your selections."
 )
-        wait_years = st.slider("Years to wait (for projected appreciation)", 1, 20, 5)
+    wait_years = st.slider("Years to wait (for projected appreciation)", 1, 20, 5)
 
-        submitted = st.form_submit_button("Predict Price")
+    submitted = st.form_submit_button("Predict Price")
 
         if submitted:
             years_since_handover = 2023 - year
