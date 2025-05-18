@@ -21,11 +21,13 @@ def load_data():
 
 @st.cache_resource
 def load_model():
+    import pickle
     url = f"https://drive.google.com/uc?id={PKL_DRIVE_ID}"
-    output = "price_predictor_model.pkl"
+    output = "price_predictor_model_v3.pkl"
     if not os.path.exists(output):
         gdown.download(url, output, quiet=False)
-    return joblib.load(output)
+    with open(output, "rb") as f:
+        return pickle.load(f)
 
 # === LOAD ===
 df = load_data()
