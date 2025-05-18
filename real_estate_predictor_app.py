@@ -49,7 +49,10 @@ if mode == "🔍 Browse Listings":
     with col2:
         prop_type = st.selectbox("Select Property Type", sorted(df['property_type_en'].dropna().unique()))
     with col3:
+    if 'developer_en' in df.columns:
         developer = st.selectbox("Select Developer (optional)", ["All"] + sorted(df['developer_en'].dropna().unique().tolist()))
+    else:
+        developer = "All"
 
     df_filtered = df[
         (df['area_name_en'] == area) &
