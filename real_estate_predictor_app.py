@@ -9,7 +9,7 @@ import gdown
 
 # === CONFIG ===
 PARQUET_DRIVE_ID = "17tWMJLlBIpxirNTi2JntwJZ0Pt7lMgC9"
-PKL_DRIVE_ID = "1qAQ4fN1O0IMidyehBXrw-w0bLkUTKm7Z"
+PKL_DRIVE_ID = "1nEgmP6L8OgHN1Zhx5rdXEPFyIpgsllvX"
 
 @st.cache_data
 def load_data():
