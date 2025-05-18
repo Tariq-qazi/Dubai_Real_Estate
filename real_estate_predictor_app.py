@@ -22,7 +22,7 @@ def load_data():
 @st.cache_resource
 def load_model():
     import joblib
-    import sklearn.ensemble._forest  # ← Fix for ModuleNotFoundError
+    import sklearn.ensemble._forest  # Fix for RandomForestRegressor unpickling
     url = f"https://drive.google.com/uc?id={PKL_DRIVE_ID}"
     output = "price_predictor_model_v3.pkl"
     if not os.path.exists(output):
