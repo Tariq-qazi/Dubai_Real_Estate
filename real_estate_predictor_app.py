@@ -89,8 +89,8 @@ if mode == "🔍 Browse Listings":
 # === ✍️ Predict a Property Mode ===
 
 elif mode == "✍️ Predict a Property":
-        with st.form("manual_input_form"):
-            col1, col2 = st.columns(2)
+    with st.form("manual_input_form"):
+        col1, col2 = st.columns(2)
         with col1:
             procedure_area = st.number_input("Area (sqm)", min_value=10.0, value=100.0)
             rooms_en = st.number_input("Number of Rooms", min_value=0.0, value=2.0)
