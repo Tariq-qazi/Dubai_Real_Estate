@@ -49,10 +49,7 @@ if mode == "🔍 Browse Listings":
     with col2:
         prop_type = st.selectbox("Select Property Type", sorted(df['property_type_en'].dropna().unique()))
     with col3:
-    if 'developer_en' in df.columns:
-        developer = st.selectbox("Select Developer (optional)", ["All"] + sorted(df['developer_en'].dropna().unique().tolist()))
-    else:
-        developer = "All"
+    developer = "All"  # Developer filter skipped (column not present)
 
     df_filtered = df[
         (df['area_name_en'] == area) &
@@ -196,27 +193,12 @@ elif mode == "✍️ Predict a Property":
                     st.dataframe(area_comparison.reset_index())
 
                     # Developer comparison
-                    if 'developer_en' in df.columns:
-                        st.subheader("🏗️ Compare with Other Developers in Same Area")
-                        dev_comparison = df[
-                            (df['area_name_en'] == area_name) &
-                            (df['property_type_en'] == property_type)
-                        ].groupby('developer_en').agg(
-                            avg_price_per_sqm=('meter_sale_price', 'mean'),
-                            count=('transaction_id', 'count')
-                        ).sort_values('avg_price_per_sqm', ascending=False).head(10)
-                        st.dataframe(dev_comparison.reset_index())
-                        best_dev = dev_comparison['avg_price_per_sqm'].idxmax()
-                        st.success(f"🏗️ Top Developer in {area_name}: {best_dev}")
-                    else:
-                        st.info("Developer data not available in this dataset.")
+                    # Developer section skipped because 'developer_en' is not in the dataset
 
                     best_area = area_comparison['avg_price_per_sqm'].idxmax()
                     st.success(f"📌 Top Value Area for Similar Units: {best_area}")
 
-                    if 'developer_en' in df.columns and 'dev_comparison' in locals():
-                        best_dev = dev_comparison['avg_price_per_sqm'].idxmax()
-                        st.success(f"🏗️ Top Developer in {area_name}: {best_dev}")
+                    
                     # Recommendation Summary (Styled)
                     with st.expander("📋 Open Recommendation Summary"):
                         st.markdown(
@@ -225,12 +207,12 @@ elif mode == "✍️ Predict a Property":
                                 <h4 style='color:#036;'>🧭 Summary for Your Property</h4>
                                 <p>Based on your selection in <strong>{area_name}</strong>, the predicted property value is <strong style='color:#076'>{pred_price:,.0f} AED</strong>.</p>
                                 <p>If you wait <strong>{wait_years} years</strong>, your property could appreciate by <strong>{appreciation:.1f}%</strong>, potentially reaching <strong style='color:#076'>{projected_price:,.0f} AED</strong> assuming it matures into the '<strong>{potential_stage}</strong>' stage.</p>
-                                <p>Meanwhile, similar units in <strong>{best_area}</strong> offer the highest current average price per sqm, and <strong>{best_dev}</strong> is the leading developer in your selected area.</p>
+                                <p>Meanwhile, similar units in <strong>{best_area}</strong> offer the highest current average price per sqm.</p>
                                 <hr>
                                 <ul>
                                     <li>✅ Retain this property if the area is expected to grow.</li>
                                     <li>🔁 Explore relocation to <strong>{best_area}</strong> for higher resale potential.</li>
-                                    <li>🏗️ Consider buying from <strong>{best_dev}</strong> for stronger value performance.</li>
+                                    
                                 </ul>
                             </div>
                             """,
