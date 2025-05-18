@@ -50,7 +50,7 @@ if mode == "🔍 Browse Listings":
     with col2:
         prop_type = st.selectbox("Select Property Type", sorted(df['property_type_en'].dropna().unique()))
     with col3:
-    developer = "All"  # Developer filter skipped (column not present)
+        developer = "All"  # Developer filter skipped (column not present)
 
     df_filtered = df[
         (df['area_name_en'] == area) &
