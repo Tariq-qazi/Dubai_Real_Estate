@@ -196,15 +196,20 @@ elif mode == "✍️ Predict a Property":
                     st.dataframe(area_comparison.reset_index())
 
                     # Developer comparison
-                    st.subheader("🏗️ Compare with Other Developers in Same Area")
-                    dev_comparison = df[
-                        (df['area_name_en'] == area_name) &
-                        (df['property_type_en'] == property_type)
-                    ].groupby('developer_en').agg(
-                        avg_price_per_sqm=('meter_sale_price', 'mean'),
-                        count=('transaction_id', 'count')
-                    ).sort_values('avg_price_per_sqm', ascending=False).head(10)
-                    st.dataframe(dev_comparison.reset_index())
+                    if 'developer_en' in df.columns:
+                        st.subheader("🏗️ Compare with Other Developers in Same Area")
+                        dev_comparison = df[
+                            (df['area_name_en'] == area_name) &
+                            (df['property_type_en'] == property_type)
+                        ].groupby('developer_en').agg(
+                            avg_price_per_sqm=('meter_sale_price', 'mean'),
+                            count=('transaction_id', 'count')
+                        ).sort_values('avg_price_per_sqm', ascending=False).head(10)
+                        st.dataframe(dev_comparison.reset_index())
+                        best_dev = dev_comparison['avg_price_per_sqm'].idxmax()
+                        st.success(f"🏗️ Top Developer in {area_name}: {best_dev}")
+                    else:
+                        st.info("Developer data not available in this dataset.")
 
                     best_area = area_comparison['avg_price_per_sqm'].idxmax()
                     best_dev = dev_comparison['avg_price_per_sqm'].idxmax()
