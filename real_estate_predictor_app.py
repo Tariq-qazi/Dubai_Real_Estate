@@ -125,26 +125,9 @@ elif mode == "✍️ Predict a Property":
             min_value=1000.0,
             value=round(suggested_price, 0),
             help="If unsure, we've pre-filled the average value based on your selections."
-        ).unique()))
+        )
 
-        avg_price_q = df[
-    (df['area_name_en'] == area_name) &
-    (df['property_type_en'] == property_type) &
-    (df['year'] == year)
-]
 
-if not avg_price_q.empty:
-    avg_price_q = avg_price_q.dropna(subset=['meter_sale_price'])
-    suggested_price = avg_price_q['meter_sale_price'].mean()
-else:
-    suggested_price = 12000.0  # fallback
-
-meter_sale_price = st.number_input(
-    "Meter Sale Price (AED/sqm)",
-    min_value=1000.0,
-    value=round(suggested_price, 0),
-    help="If unsure, we've pre-filled the average value based on your selections."
-)
         wait_years = st.slider("Years to wait (for projected appreciation)", 1, 20, 5)
 
         submitted = st.form_submit_button("Predict Price")
