@@ -212,10 +212,11 @@ elif mode == "✍️ Predict a Property":
                         st.info("Developer data not available in this dataset.")
 
                     best_area = area_comparison['avg_price_per_sqm'].idxmax()
-                    best_dev = dev_comparison['avg_price_per_sqm'].idxmax()
                     st.success(f"📌 Top Value Area for Similar Units: {best_area}")
-                    st.success(f"🏗️ Top Developer in {area_name}: {best_dev}")
 
+                    if 'developer_en' in df.columns and 'dev_comparison' in locals():
+                        best_dev = dev_comparison['avg_price_per_sqm'].idxmax()
+                        st.success(f"🏗️ Top Developer in {area_name}: {best_dev}")
                     # Recommendation Summary (Styled)
                     with st.expander("📋 Open Recommendation Summary"):
                         st.markdown(
